@@ -105,7 +105,7 @@ bool pljavaViableXact()
 
 char *pljavaDbName()
 {
-	return MyProcPort->database_name;
+    return pg_getdatabasename(MyProcPort);
 }
 
 char const *pljavaClusterName()
@@ -403,8 +403,8 @@ char *InstallHelper_hello()
 
 	Invocation_pushBootContext(&ctx);
 	nativeVer = String_createJavaStringFromNTS(SO_VERSION_STRING);
-	user = String_createJavaStringFromNTS(MyProcPort->user_name);
-	dbname = String_createJavaStringFromNTS(MyProcPort->database_name);
+	user = String_createJavaStringFromNTS(pg_getusername(MyProcPort));
+	dbname = String_createJavaStringFromNTS(pg_getdatabasename(MyProcPort));
 	if ( '\0' == *clusternameC )
 		clustername = NULL;
 	else
