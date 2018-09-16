@@ -98,6 +98,33 @@ Oid pljavaTrustedOid = InvalidOid;
 
 Oid pljavaUntrustedOid = InvalidOid;
 
+char * pg_getdatabasename(Port *port) __attribute__((weak));
+char * pg_getusername(Port *port) __attribute__((weak));
+// hard coded database_name in struct Port, switched by version of gpdb
+static inline size_t
+_db_offset()
+{
+    // FIXME: how to get the correct version number at runtime
+    int _version = 0;
+    if (_version<511)
+        return 328;
+    return 344;
+}
+static inline char *
+_plj_get_database_name(Port *port)
+{
+    if (pg_getdatabasename)
+        return pg_getdatabasename(port);
+    return *(char**)((char*)port + _db_offset());
+}
+static inline char *
+_plj_get_user_name(Port *port)
+{
+    if (pg_getusername)
+        return pg_getusername(port);
+    return *(char**)((char*)port + _db_offset() + sizof(char*));
+}
+
 bool pljavaViableXact()
 {
 	return IsTransactionState() && 'E' != TransactionBlockStatusCode();
@@ -105,7 +132,7 @@ bool pljavaViableXact()
 
 char *pljavaDbName()
 {
-    return pg_getdatabasename(MyProcPort);
+    return _plj_get_database_name(MyProcPort);
 }
 
 char const *pljavaClusterName()
@@ -403,8 +430,8 @@ char *InstallHelper_hello()
 
 	Invocation_pushBootContext(&ctx);
 	nativeVer = String_createJavaStringFromNTS(SO_VERSION_STRING);
-	user = String_createJavaStringFromNTS(pg_getusername(MyProcPort));
-	dbname = String_createJavaStringFromNTS(pg_getdatabasename(MyProcPort));
+	user = String_createJavaStringFromNTS(_plj_get_user_name(MyProcPort));
+	dbname = String_createJavaStringFromNTS(_plj_get_database_name(MyProcPort));
 	if ( '\0' == *clusternameC )
 		clustername = NULL;
 	else
