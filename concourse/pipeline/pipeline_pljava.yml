@@ -192,6 +192,15 @@ resources:
     secret_access_key: {{bucket-secret-access-key}}
     regexp: dependancy/jdk-8(.*).rpm
 
+-name: maven
+  type: s3
+  source:
+    bucket: {{pl-bucket-name}}
+    region_name: {{aws-region}}
+    access_key_id: {{bucket-access-key-id}}
+    secret_access_key: {{bucket-secret-access-key}}
+    regexp: dependancy/apache-maven-3(.*).tar.gz
+
 jobs:
 ## GPDB5 PL/Java Jobs
 ##
@@ -206,6 +215,7 @@ jobs:
     - get: pljava_centos7_img
     - get: gpdb_src
     - get: jdk
+    - get: maven
   - aggregate:
     - task: pljava_gpdb_build
       file: pljava_src/concourse/tasks/build_pljava.yml
@@ -229,6 +239,7 @@ jobs:
     - get: pljava_centos6_img
     - get: gpdb_src
     - get: jdk
+    - get: maven
   - aggregate:
     - task: pljava_gpdb_build
       file: pljava_src/concourse/tasks/build_pljava.yml
@@ -251,6 +262,7 @@ jobs:
       trigger: true
     - get: gpdb_src
     - get: jdk
+    - get: maven
   - aggregate:
     - task: pljava_gpdb_build
       file: pljava_src/concourse/tasks/build_pljava_sles.yml
