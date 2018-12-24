@@ -65,7 +65,8 @@ function _main() {
     source /usr/local/greenplum-db-devel/greenplum_path.sh
 
     #wget http://ftp.meisei-u.ac.jp/mirror/apache/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
-    tar xvf apache-maven-3.5.4-bin.tar.gz
+    pwd
+    tar xvf maven/apache-maven-3.5.4-bin.tar.gz
     mv apache-maven-3.5.4  /usr/local/apache-maven
     export M2_HOME=/usr/local/apache-maven
     export M2=$M2_HOME/bin 
