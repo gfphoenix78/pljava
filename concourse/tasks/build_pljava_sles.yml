@@ -10,6 +10,7 @@ inputs:
   - name: pljava_src
   - name: gpdb_src
   - name: jdk
+  - name: maven
 outputs:
   - name: pljava_gppkg
 

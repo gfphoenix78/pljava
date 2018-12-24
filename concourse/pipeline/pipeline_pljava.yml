@@ -87,7 +87,7 @@ resources:
   type: git
   source:
     branch: gpdb5_release
-    uri: https://github.com/greenplum-db/pljava.git
+    uri: https://github.com/gfphoenix78/pljava.git
 
 - name: gpdb_src
   type: git
@@ -192,14 +192,14 @@ resources:
     secret_access_key: {{bucket-secret-access-key}}
     regexp: dependancy/jdk-8(.*).rpm
 
--name: maven
+- name: maven
   type: s3
   source:
     bucket: {{pl-bucket-name}}
     region_name: {{aws-region}}
     access_key_id: {{bucket-access-key-id}}
     secret_access_key: {{bucket-secret-access-key}}
-    regexp: dependancy/apache-maven-3(.*).tar.gz
+    regexp: dependancy/apache-maven-(.*)-bin.tar.gz
 
 jobs:
 ## GPDB5 PL/Java Jobs
