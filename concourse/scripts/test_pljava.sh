@@ -9,12 +9,6 @@ source "${TOP_DIR}/pljava_src/concourse/scripts/common.bash"
 # for centos and suse, the compiled GPHOME is /usr/local/greenplum-db-devel
 # but for compiled ubuntu16, it is /usr/local/gpdb. ;-(
 gphome=/usr/local/greenplum-db-devel
-case "$OSVER" in
-ubuntu*)
-	gphome=/usr/local/gpdb
-	ln -sf /usr/local/gpdb /usr/local/greenplum-db-devel
-	;;
-esac
 
 function install_openssl(){
     pushd /opt
@@ -60,7 +54,7 @@ function install_openssl(){
 }
 
 function install_gpdb() {
-    [ ! -d "$gphome" ] && mkdir "$gphome"
+    mkdir -p "$gphome"
     tar -xzf bin_gpdb/*.tar.gz -C $gphome
 }
 
