@@ -26,12 +26,13 @@ function prep_jdk_install() {
 	  ubuntu16)
 	    case "$JDK_VERSION" in
 		  8)
-		    apt install -y openjdk-8-jdk
+            # docker image has openjdk-8 already
+		    #apt install -y openjdk-8-jdk
 		    export JAVA_HOME=`find /usr/lib/jvm/ -type d -name "java-8*"`
 		    ;;
 		  11)
-		    add-apt-repository -y ppa:openjdk-r/ppa
-		    apt update -q
+		    #add-apt-repository -y ppa:openjdk-r/ppa
+		    apt update ; apt --fix-broken install -y
 		    apt install -y openjdk-11-jdk
 		    export JAVA_HOME=`find /usr/lib/jvm/ -type d -name "java-11*"`
 			;;
