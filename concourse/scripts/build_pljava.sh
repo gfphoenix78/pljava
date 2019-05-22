@@ -24,8 +24,7 @@ local gphome=/usr/local/greenplum-db-devel
       #rpm -ivh jdk/jdk-8u181-linux-x64.rpm
       ;;
   ubuntu*)
-      apt update
-      apt install -y wget
+      echo "noop"
       ;;
   centos*)
       yum install -y wget
